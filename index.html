@@ -197,16 +197,9 @@ startup();
   height: 70px;
   animation: spin 4s linear infinite;
 }
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-.container-video { position:relative; }
-
-.container-video video {
-    position:relative;
-    z-index:0;
 }
 .overlay-video {
     max-width: 70%;
@@ -228,6 +221,7 @@ startup();
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 0;
 }
 legend {
     margin-left: calc(50%);
