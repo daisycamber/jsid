@@ -222,6 +222,12 @@ startup();
     left: 13%;
     top: 15%;
 }
+.container-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
 </head>
 <body>
@@ -232,7 +238,6 @@ startup();
 <i class="bi bi-card-heading hide" id="icon" style="text-align: center; opacity: 0.5;"></i>
 </div>
 </div>
-<video autoplay="true" id="video"></video>
 <canvas id="canvas" style="display: none; visibility: hidden;"></canvas>
 <div style="position: fixed; left: 0; top: 0; background-color: transparent; height: 0px; width: 100%" id="loader-container">
 <div id="spin-loader" style="position: relative; margin: auto; top: 50%; text-align: center;"></div>
