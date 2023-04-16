@@ -228,10 +228,14 @@ startup();
   left: 50%;
   transform: translate(-50%, -50%);
 }
+legend {
+    margin-left: calc(50%);
+    transform: translateX(-50%);
+}
 </style>
 </head>
 <body>
-<legend style="text-algin: center;">Scan ID</legend>
+<legend>Scan ID</legend>
 <div id="video-container" class="container-video">
 <video autoplay="true" muted="true" id="video" width="100%" class="ml-0 mr-0"></video>
 <div id="overlay" class="overlay-video" style="width: 100%;">
