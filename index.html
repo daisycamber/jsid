@@ -21,8 +21,8 @@ function readyOverlay() {
   	  var offsetHeight = video.getBoundingClientRect().height;
 	  icon.style.fontSize = Math.floor(offsetHeight * 0.8) + "px";
 	  if(offsetHeight > offsetWidth) {
-	    if(!$(overlay).hasClass("icon-rotate")) {
-	    	$(overlay).toggleClass("icon-rotate");
+	    if(!overlay.classList.contains("icon-rotate")) {
+	    	overlay.classList.toggle("icon-rotate");
 	    }
 	    icon.style.fontSize = Math.floor(offsetWidth * 0.7) + "px";
 	  }
