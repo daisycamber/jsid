@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<title>ID Scanner</title>
+<meta charset="UTF-8">
+<meta name="description" content="Scan an ID with JavaScript">
+<meta name="keywords" content="HTML, CSS, JavaScript ID scanner with ZXing.js and Tesseract.js.">
+<meta name="author" content="Jasper Holton">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
@@ -41,7 +47,7 @@ function showResult(birthday) {
 	if(age >= min_age) {
 		modalText.innerHTML = "Identity Verified, age " + age + " years old.";
 	} else {
-		modalText.innerHTML = "Identity couldn't be verified";
+		modalText.innerHTML = "Identity couldn't be verified.";
 	}
 	setTimeout(function() {
 		modal.classList.add("hide");
@@ -50,25 +56,41 @@ function showResult(birthday) {
 }
 function validateIdFront(text) {
 	var results = text.matchAll("\d\d\/\d\d\/\d\d\d\d");
+	var birthdate = null;
+	var expiry = null;
 	for(result in results) {
 		var day = result[0];
-		var birthdate = new Date(parseInt(result.substring(6)), parseInt(result.substring(0,2)), parseInt(result.substring(3,5)));
-		if(calculateAge(birthdate) >= min_age) {
-			showResult(birthdate);
+		var dayParsed = new Date(parseInt(result.substring(6)), parseInt(result.substring(0,2)), parseInt(result.substring(3,5)));
+		if(calculateAge(dayParsed) >= min_age) {
+			birthdate = dayParsed;
 		}
+		if(dayParsed.getTime() > new Date().getTime()) {
+			expiry = dayParsed;
+		}
+	}
+	if(birthdate && expiry) {
+		showResult(birthdate);
+		return;
 	}
 	showResult(new Date());
 }
 function validateIdBack(text) {
 	var results = text.matchAll("\d\d\d\d\d\d\d\d");
+	var birthdate = null;
+	var expiry = null;
 	for(result in results) {
 		var day = result[0];
-		var birthdate = new Date(parseInt(result.substring(4)), parseInt(result.substring(0,2)), parseInt(result.substring(2,4)));
-		var today = new Date();
-		var validDate = today.setYear(today.year - min_age);
-		if(calculateAge(birthdate) >= min_age) {
-			showResult(birthdate);
+		var dayParsed = new Date(parseInt(result.substring(4)), parseInt(result.substring(0,2)), parseInt(result.substring(2,4)));
+		if(calculateAge(dayParsed) >= min_age) {
+			birthdate = dayParsed;
 		}
+		if(dayParsed.getTime() > new Date().getTime()) {
+			expiry = dayParsed;
+		}
+	}
+	if(birthdate && expiry) {
+		showResult(birthdate);
+		return;
 	}
 	showResult(new Date());
 }
@@ -128,7 +150,7 @@ function uploadImage(image){
 	document.getElementById("spin-loader").classList.add("spin-loader");
 	document.getElementById("loader-container").style.height = "100vh";                    
 	drawImage(image);
-	var data = decodeBarcode(canvas.toDataURL());
+	decodeBarcode(canvas.toDataURL());
 }
 function startup() {
   navigator.mediaDevices.getUserMedia({video: {facingMode: "environment"}, audio: false})
@@ -203,6 +225,7 @@ startup();
 </style>
 </head>
 <body>
+<legend style="text-algin: center;">Scan ID</legend>
 <div id="video-container" class="container-video">
 <video autoplay="true" muted="true" id="video" width="100%" class="ml-0 mr-0"></video>
 <div id="overlay" class="overlay-video" style="width: 100%;">
